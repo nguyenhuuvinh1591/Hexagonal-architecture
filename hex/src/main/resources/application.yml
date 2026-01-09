@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: hex-application
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/mydatabase}
+    username: ${SPRING_DATASOURCE_USERNAME:myuser}
+    password: ${SPRING_DATASOURCE_PASSWORD:secret}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  docker:
+    compose:
+      enabled: true
+      file: hex/docker-compose.yml
+server:
+  port: ${PORT:8080}
