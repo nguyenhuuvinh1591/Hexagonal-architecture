@@ -1,0 +1,42 @@
+pipeline {
+	agent any
+
+	environment {
+		APP_NAME = 'hex-app'
+		APP_VERSION = "1.0.${BUILD_NUMBER}"
+	}
+
+	stages {
+
+		stage('Checkout') {
+			steps {
+				git branch: 'develop',
+				url: 'https://github.com/nguyenhuuvinh1591/Hexagonal-architecture.git'
+			}
+		}
+
+
+		stage('Build JAR') {
+			steps {
+				sh 'mvn clean package -DskipTests'
+			}
+		}
+
+		stage('Build Docker Image') {
+			steps {
+				sh """
+          docker build -t ${APP_NAME}:${APP_VERSION} .
+        """
+			}
+		}
+
+		stage('Deploy with Docker Compose') {
+			steps {
+				sh """
+          export APP_VERSION=${APP_VERSION}
+          docker compose up -d --build spring-app
+        """
+			}
+		}
+	}
+}
