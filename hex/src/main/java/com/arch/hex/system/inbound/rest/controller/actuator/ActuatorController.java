@@ -16,6 +16,7 @@ public class ActuatorController {
     @GetMapping("/health")
     public HealthDescriptor health(){
         log.info("APP VERSION = 1.0.4");
+        log.info("APP VERSION = 1.0.5");
         return healthEndpoint.health();
     }
 }
